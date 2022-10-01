@@ -45,7 +45,7 @@ task:
       - chmod a+x ~/.anu/repoo
       - repoo init -q --no-repo-verify --depth=1 -u https://github.com/Project-Awaken/android_manifest -b triton -g default,-mips,-darwin,-notdefault
       - git clone https://github.com/darknius22/local_manifest -b awaken --depth 1 .repo/local_manifests
-      - repoo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+      - repoo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8 --fail-fast
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Sync Completed!"
 
   Build_script:
