@@ -1,10 +1,10 @@
 env:
-    credentials: "ENCRYPTED[!80ac0759085781877f544669e2d0bc6033519cdabf07e6f4a4a364aa08b0580ef3f7112eaecf6e8e98c3d04698f9dd7e!]"
-    rcloneconfig: "ENCRYPTED[!511b02e15ab63a18b31bfdab42ab121e222a6ff0b15f16ea0e60f5fa37898fd747df8669f2ec50162ab0022098b5810e!]"
-    tokentl: "ENCRYPTED[!372778c03785ff4e30eb4513b2abc0aacee1d0a3bab9db48e708fda711483876afce92d80d2a70a238352234a7cb716d!]"
-    idtl: "ENCRYPTED[!c9824f19c5c7b9651f946bcac2356e2f827c34897e82f6ee39d169b7eb8893d650550ba213d45904b26f250ecc586e7c!]"
-    lunch : lunch nad_juice-userdebug
-    make: mka nad
+    credentials: "ENCRYPTED[!a27be0f4858421619164791355b55404da2207190e137d3b8fcb7442d9d5513dda26ed3cedaf529a0289c1c971800647!]"
+    rcloneconfig: "ENCRYPTED[!6bf31add8384fd4b6fe7a4f11c43f69318ce46f5fbbebab867a98863571fdfb62c283abf2ef30c90fc8b4715850ec5f2!]"
+    tokentl: "ENCRYPTED[!ed426c81503778dd57bf2762c693ddc947c35230c7e683121a65ee6498c899806e9062bb235803a59b51ce7891ac72ce!]"
+    idtl: "ENCRYPTED[!4de30c8ef58a465021ce742ef1c1e8ac6922d31236ce35439a8fb6f855b930ebba6b400ad8daf4f4d5288b08321bd326!]"
+    lunch : lunch xdroid_ysl-userdebug
+    make: make xd
  
 task:
   name: "Setting Up, Syncing, Building and Uploading..."
@@ -18,12 +18,12 @@ task:
        - export DEBIAN_FRONTEND=noninteractive
        - mkdir -p ~/.config/rclone
        - echo "$rcloneconfig" > ~/.rclone.conf
-       - git config --global user.name "dragonroad99"
-       - git config --global user.email "fadhilm298@gmail.com"
+       - git config --global user.name "Rahmad Adi Pratama"
+       - git config --global user.email "OhMyVenyx@proton.me"
        - echo "$credentials" > ~/.git-credentials
        - git config --global credential.helper store --file=~/.git-credentials
        - mkdir -p ~/ccache
-       - rclone copy darx:nadqq/ccache.tar.gz ~/ -P
+       - rclone copy venyx:xdroid/ccache.tar.gz ~/ -P
        - cd ~/
        - time tar xf ccache.tar.gz
        - cd ~/
@@ -39,25 +39,25 @@ task:
       - mkdir -p ~/rom
       - cd ~/rom
       - rm -rf * .repo
-      - repo init -q --no-repo-verify --depth=1 -u https://github.com/NusantaraProject-ROM/android_manifest -b 10 -g default,-mips,-darwin,-notdefault
-      - git clone https://github.com/Night-Raids-Reborn/local_manifest --depth 1 -b main .repo/local_manifests
+      - repo init -q --no-repo-verify --depth=1 -u https://github.com/xdroid-oss/xd_manifest -b thirteen -g default,-mips,-darwin,-notdefault
+      - git clone https://github.com/IDN-Labs/local_manifest --depth 1 -b xdroid-13.0 .repo/local_manifests
       - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Sync Completed!"
 
   Build_script:
       - sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build Started"
-#      - ./collect.sh
-      - ./final.sh
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd ~/rom/out/target/product/juice/ && ls *.zip) Completed!"
+      - ./collect.sh
+#      - ./final.sh
+      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd ~/rom/out/target/product/ysl/ && ls INA.XD*.zip) Completed!"
 
   Upload_script:
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Uploading Build..."
-      - rclone copy ~/rom/out/target/product/juice/Nusantara_*.zip darx:juice -P
-      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd ~/rom/out/target/product/juice/ && ls *.zip) Uploaded Successfully!"
+#      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Uploading Build..."
+#      - rclone copy ~/rom/out/target/product/ysl/INA.XD*.zip venyx:ysl -P
+#      - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd ~/rom/out/target/product/ysl/ && ls INA.XD*.zip) Uploaded Successfully!"
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Compres ccache"
-#      - ./ziping.sh
+      - ./ziping.sh
       - cd ~/
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Uploading ccache...."
-#      - rclone copy ccache.tar.gz darx:nadqq -P
+      - rclone copy ccache.tar.gz venyx:xdroid -P
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Ccache Uploaded Successfully!"
