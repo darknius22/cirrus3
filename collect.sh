@@ -8,7 +8,7 @@ export USE_CCACHE=1
 ccache -M 20G -F 0
 $lunch
 $make -j8 &
-sleep 90m
+sleep 100m
 kill %1
 ccache -s
 
