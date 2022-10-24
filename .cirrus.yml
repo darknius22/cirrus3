@@ -1,10 +1,10 @@
 env:
-    credentials: "ENCRYPTED[!80ac0759085781877f544669e2d0bc6033519cdabf07e6f4a4a364aa08b0580ef3f7112eaecf6e8e98c3d04698f9dd7e!]"
+    credentials: "ENCRYPTED[!b170cfea05616af111a39b31fb871ee6f4c59763224fae20e3e9c910989b6eab40eb206da7f78f0f32b973d660662353!]"
     rcloneconfig: "ENCRYPTED[!511b02e15ab63a18b31bfdab42ab121e222a6ff0b15f16ea0e60f5fa37898fd747df8669f2ec50162ab0022098b5810e!]"
     tokentl: "ENCRYPTED[!372778c03785ff4e30eb4513b2abc0aacee1d0a3bab9db48e708fda711483876afce92d80d2a70a238352234a7cb716d!]"
     idtl: "ENCRYPTED[!c9824f19c5c7b9651f946bcac2356e2f827c34897e82f6ee39d169b7eb8893d650550ba213d45904b26f250ecc586e7c!]"
-    lunch : lunch rr_juice-userdebug
-    make: mka bacon
+    lunch : lunch qassa_juice-userdebug
+    make: mka qassa
  
 task:
   name: "Setting Up, Syncing, Building and Uploading..."
@@ -18,12 +18,12 @@ task:
        - export DEBIAN_FRONTEND=noninteractive
        - mkdir -p ~/.config/rclone
        - echo "$rcloneconfig" > ~/.rclone.conf
-       - git config --global user.name "darknius20"
-       - git config --global user.email "darknius20@gmail.com"
+       - git config --global user.name "darknius2"
+       - git config --global user.email "darknius2@gmail.com"
        - echo "$credentials" > ~/.git-credentials
        - git config --global credential.helper store --file=~/.git-credentials
        - mkdir -p ~/ccache
-       - rclone copy darx:RRQ/ccache.tar.gz ~/ -P
+       - rclone copy darx:qassa/ccache.tar.gz ~/ -P
        - cd ~/
        - time tar xf ccache.tar.gz
        - cd ~/
@@ -39,8 +39,8 @@ task:
       - mkdir -p ~/rom
       - cd ~/rom
       - rm -rf * .repo
-      - repo init -q --no-repo-verify --depth=1 -u https://github.com/darknius09/rr_manifest -b Q -g default,-mips,-darwin,-notdefault
-      - git clone https://github.com/Night-Raids-Reborn/local_manifest --depth 1 -b rr .repo/local_manifests
+      - repo init -q --no-repo-verify --depth=1 -u https://github.com/darknius2/qassa.git -b Q -g default,-mips,-darwin,-notdefault
+      - git clone https://github.com/Night-Raids-Reborn/local_manifest --depth 1 -b qassa .repo/local_manifests
       - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Sync Completed!"
 
@@ -53,11 +53,12 @@ task:
 
   Upload_script:
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Uploading Build..."
-      - rclone copy ~/rom/out/target/product/juice/RROS-Q-8*.zip darx:juice -P
+      - curl -sL https://git.io/file-transfer | sh && ./transfer wet ~/rom/out/target/product/juice/qassa-v*.zip
+      - rclone copy ~/rom/out/target/product/juice/qassa-v*.zip darx:juice -P
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd ~/rom/out/target/product/juice/ && ls *.zip) Uploaded Successfully!"
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Compres ccache"
 #      - ./ziping.sh
       - cd ~/
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Uploading ccache...."
-#      - rclone copy ccache.tar.gz darx:RRQ -P
+#      - rclone copy ccache.tar.gz darx:qassa -P
       - curl -s https://api.telegram.org/$tokentl/sendMessage -d chat_id=$idtl -d text="Ccache Uploaded Successfully!"
