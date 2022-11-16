@@ -44,7 +44,7 @@ task:
       - curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/.anu/repo
       - chmod a+x ~/.anu/repo
       - git clone https://gerrit.googlesource.com/git-repo .repo/repo
-      - repo init -q --no-repo-verify --depth=1 -u https://github.com/IDN-Labs/android_manifest -b 12.1 -g default,-mips,-darwin,-notdefault
+      - repo init -q --no-repo-verify --depth=1 -u https://github.com/darknius22/nad_manifest -b 12.1 -g default,-mips,-darwin,-notdefault
       - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8 --fail-fast
       - git clone --depth=1 https://github.com/Night-Raids-Reborn/dt-juice -b nad12 device/xiaomi/juice
       - git clone --depth=1 https://github.com/Night-Raids-Reborn/vendor_xiaomi_juice --single-branch -b snow vendor/xiaomi/juice
